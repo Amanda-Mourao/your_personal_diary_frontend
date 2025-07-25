@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useState } from "react";
-import logo from "../assets/Logo.png";
+import logo from "../assets/personal_diary_logo.png";
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

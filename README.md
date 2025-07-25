@@ -27,4 +27,3 @@ Ein modernes, responsives Personal Diary Frontend, gebaut mit React und Vite. Di
 ## Entwickelt von
 
 Amanda Mourao
-
