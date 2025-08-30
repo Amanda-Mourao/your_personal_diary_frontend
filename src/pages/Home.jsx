@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getAllPosts } from "../components/AllRequest";
 import PostForm from "./PostForm";
 import PostCard from "../components/PostCard";
+import Spinner from "../components/Spinner";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -40,7 +41,9 @@ const Home = () => {
 
       {error && <p>{error}</p>}
       {loading ? (
-        <p className="text-gray-600 text-center m-10">Loading ...</p>
+        <div className="text-center m-10">
+          <Spinner size="large" />
+        </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {Posts.map((post) => (

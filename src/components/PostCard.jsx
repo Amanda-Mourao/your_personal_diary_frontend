@@ -21,7 +21,7 @@ function PostCard({ post, onDeleteSuccess }) {
       return;
     }
 
-    console.log("🔍 delete Post with ID:", post.id);
+    console.log("Delete Post with ID:", post.id);
     try {
       await deletePost(post.id);
       if (onDeleteSuccess) {
@@ -62,9 +62,10 @@ function PostCard({ post, onDeleteSuccess }) {
         {/* Edit Button */}
         <button
           onClick={goToEdit}
-          className="absolute top-3 right-3 bg-gradient-to-r from-purple-500 to-blue-500  
-          flex items-center gap-2 font-bold 
-                    bg-primary text-white  px-3 py-1 rounded-full transition-all duration-200 hover:scale-110"
+          className="absolute top-3 right-3 bg-gradient-to-r from-purple-500 to-blue-500 
+                     hover:from-purple-600 hover:to-blue-600 flex items-center gap-2 font-bold 
+                     text-white px-3 py-1 rounded-full transition-all duration-200 
+                     transform hover:scale-110 shadow-lg"
           aria-label="Edit post"
         >
           <FiEdit size={16} />
@@ -106,16 +107,20 @@ function PostCard({ post, onDeleteSuccess }) {
         <div className="flex gap-4 pt-4 border-t border-gray-100">
           <button
             onClick={goToDetails}
-            className="flex items-center justify-center gap-2 bg-[var(--secondary)] hover:bg-[var(--primary)]
-                      text-white px-4 py-2 rounded font-bold transition-colors duration-200"
+            className="flex items-center justify-center gap-2 
+                      bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600
+                      text-white px-4 py-2 rounded-lg font-bold transition-all duration-200 
+                      transform hover:scale-105 shadow-lg"
           >
             See more details ➤
           </button>
 
           <button
             onClick={handleDelete}
-            className="flex items-center justify-center gap-2 bg-[var(--primary)] hover:bg-[var(--secondary)]
-                      text-white px-4 py-2 rounded font-bold transition-colors duration-200"
+            className="flex items-center justify-center gap-2 
+                      bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600
+                      text-white px-4 py-2 rounded-lg font-bold transition-all duration-200 
+                      transform hover:scale-105 shadow-lg"
           >
             <MdDeleteForever size={18} />
             Delete

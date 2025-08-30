@@ -4,6 +4,7 @@ import { getPostById, updatePost } from "../components/AllRequest";
 import { MdSave } from "react-icons/md";
 import { BiArrowBack } from "react-icons/bi";
 import Swal from "sweetalert2";
+import Spinner from "../components/Spinner";
 
 const categoryIcons = {
   Adventure: "🧗‍♂️",
@@ -95,127 +96,157 @@ export default function PostEdit() {
   };
 
   if (loading)
-    return <p className="text-gray-600 text-center m-10">Loading Post...</p>;
+    return (
+      <div className="text-center m-10">
+        <Spinner size="large" />
+      </div>
+    );
   if (error && !formData.title)
-    return <p className="text-[var(--primary)]">{error}</p>;
+    return <p className="text-purple-600 text-center m-10">{error}</p>;
   if (!post) return null;
 
   return (
-    <form
-      className="m-auto my-12 border-1 border-[var(--primary)] p-6 rounded-lg w-3xl"
-      onSubmit={handleSubmit}
-    >
-      <h2 className="mb-4 text-xl font-bold text-gray-600">Edit post</h2>
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <form
+        className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg border border-purple-200"
+        onSubmit={handleSubmit}
+      >
+        <h2 className="mb-6 text-xl sm:text-2xl font-bold text-gray-600 text-center">
+          Edit post
+        </h2>
 
-      {error && <p className="text-[var(--primary)]">{error}</p>}
+        {error && <p className="text-purple-600 mb-4 text-center">{error}</p>}
 
-      <input
-        name="author"
-        value={formData.author}
-        onChange={handleChange}
-        placeholder="Autor*in"
-        className="w-full border border-gray-400 text-gray-600 px-3 py-2 rounded"
-      />
-      <input
-        name="title"
-        value={formData.title}
-        onChange={handleChange}
-        placeholder="Titel"
-        required
-        className="mt-4 border-gray-400 text-gray-600 w-full border px-3 py-2 rounded"
-      />
-      <textarea
-        name="content"
-        value={formData.content}
-        onChange={handleChange}
-        placeholder="Inhalt"
-        required
-        rows={4}
-        className="mt-4 w-full border-gray-400 text-gray-600 border px-3 py-2 rounded"
-      />
-      <input
-        name="cover"
-        value={formData.cover}
-        onChange={handleChange}
-        placeholder="Bild-URL"
-        required
-        className="mt-4 w-full border text-gray-600 border-gray-400 px-3 py-2 rounded"
-      />
-
-      {formData.cover && (
-        <div className="mt-4">
-          <img
-            src={formData.cover}
-            alt="Preview"
-            className="w-full h-52 text-gray-600 object-cover border border-gray-400 rounded"
+        <div className="space-y-4">
+          <input
+            name="author"
+            value={formData.author}
+            onChange={handleChange}
+            placeholder="Autor*in"
+            className="w-full border border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 
+                       text-gray-600 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-all duration-200"
           />
+
+          <input
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            placeholder="Titel"
+            required
+            className="w-full border border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 
+                       text-gray-600 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-all duration-200"
+          />
+
+          <textarea
+            name="content"
+            value={formData.content}
+            onChange={handleChange}
+            placeholder="Inhalt"
+            required
+            rows={4}
+            className="w-full border border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 
+                       text-gray-600 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-all duration-200 resize-vertical"
+          />
+
+          <input
+            name="cover"
+            value={formData.cover}
+            onChange={handleChange}
+            placeholder="Bild-URL"
+            required
+            className="w-full border border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 
+                       text-gray-600 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-all duration-200"
+          />
+
+          {formData.cover && (
+            <div className="mt-4">
+              <img
+                src={formData.cover}
+                alt="Preview"
+                className="w-full h-48 sm:h-52 md:h-64 object-cover border border-purple-300 rounded-lg"
+              />
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="category"
+                className="text-gray-600 block font-bold mb-2"
+              >
+                Category
+              </label>
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                required
+                className="w-full border border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 
+                           text-purple-600 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-all duration-200"
+              >
+                <option value="">-- Select Category --</option>
+                {Object.entries(categoryIcons).map(([cat, icon]) => (
+                  <option key={cat} value={cat}>
+                    {icon} {cat}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label
+                htmlFor="status"
+                className="text-gray-600 block font-bold mb-2"
+              >
+                Status
+              </label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                required
+                className="w-full border border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 
+                           text-purple-600 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-all duration-200"
+              >
+                <option value="">-- Select Status --</option>
+                <option value="Draft">Draft</option>
+                <option value="Published">Published</option>
+              </select>
+            </div>
+          </div>
         </div>
-      )}
 
-      <div className="flex gap-2 items-center mt-5 ">
-        <label
-          htmlFor="category"
-          className="text-gray-600 block font-bold mb-1"
-        >
-          Category
-        </label>
-        <select
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          required
-          className="text-[var(--primary)] w-full border border-gray-400 px-3 py-2 rounded"
-        >
-          <option value="">-- Select Category --</option>
-          {Object.entries(categoryIcons).map(([cat, icon]) => (
-            <option key={cat} value={cat}>
-              {icon} {cat}
-            </option>
-          ))}
-        </select>
-        <label
-          htmlFor="status"
-          className="ml-4 block font-bold text-gray-600 mb-1"
-        >
-          Status
-        </label>
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-          required
-          className="text-[var(--primary)] w-full border border-gray-400 px-3 py-2 rounded"
-        >
-          <option value="">-- Select Status --</option>
-          <option value="Draft">Draft</option>
-          <option value="Published">Published</option>
-        </select>
-      </div>
+        <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-purple-200 mt-6">
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="w-full sm:w-auto flex justify-center gap-2 font-bold items-center 
+                       bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 
+                       px-6 py-3 text-white rounded-lg transition-all duration-200 
+                       transform hover:scale-105 shadow-lg"
+          >
+            <BiArrowBack size={20} />
+            Go back
+          </button>
 
-      <div className="flex gap-4 mt-8">
-        <button
-          type="button"
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 bg-[var(--secondary)] hover:bg-[var(--primary)] text-white px-4 py-2 rounded font-bold"
-        >
-          <BiArrowBack size={20} />
-          Go back
-        </button>
+          <button
+            type="submit"
+            className="w-full sm:w-auto flex justify-center gap-2 font-bold items-center 
+                       bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 
+                       px-6 py-3 text-white rounded-lg transition-all duration-200 
+                       transform hover:scale-105 shadow-lg"
+          >
+            <MdSave size={20} />
+            Save
+          </button>
+        </div>
 
-        <button
-          type="submit"
-          className="flex gap-2 font-bold items-center bg-[var(--primary)] px-4 py-2 hover:bg-[var(--secondary)] text-white rounded"
-        >
-          <MdSave size={20} />
-          Save
-        </button>
-      </div>
-
-      {success && (
-        <p className="text-[var(--primary)] text-xl font-semibold mb-2 mt-4">
-          Post updated successfully!
-        </p>
-      )}
-    </form>
+        {success && (
+          <p className="text-purple-600 text-lg font-semibold text-center mt-4">
+            Post updated successfully!
+          </p>
+        )}
+      </form>
+    </div>
   );
 }

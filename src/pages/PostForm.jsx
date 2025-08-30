@@ -28,6 +28,7 @@ export default function PostForm({ onSuccess }) {
     Culture: "🏛️",
     Nature: "🌲",
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -44,7 +45,6 @@ export default function PostForm({ onSuccess }) {
 
     try {
       const response = await createPost(formData);
-      // Falls response.data alle Felder enthält:
       setFormData((prev) => ({ ...prev, ...response.data }));
 
       setError(null);
@@ -60,7 +60,7 @@ export default function PostForm({ onSuccess }) {
       toast: true,
       position: "center",
       icon: "success",
-      title: "your Form has been submitten",
+      title: "Your form has been submitten",
       showConfirmButton: false,
       timer: 1000,
       timerProgressBar: true,
@@ -68,96 +68,136 @@ export default function PostForm({ onSuccess }) {
   };
 
   return (
-    <form className="m-auto my-12 w-3xl" onSubmit={handleSubmit}>
-      <h2 className="mb-4 text-xl font-bold text-gray-600">Create new post</h2>
-
-      {error && <p className="text-[var(--primary)]">{error}</p>}
-
-      <input
-        name="author"
-        value={formData.author}
-        onChange={handleChange}
-        placeholder="Autor*in"
-        className="w-full border border-gray-400 px-3 py-2 rounded"
-      />
-      <input
-        name="title"
-        value={formData.title}
-        onChange={handleChange}
-        placeholder="Titel"
-        required
-        className="mt-4 border-gray-400 w-full border px-3 py-2 rounded"
-      />
-      <textarea
-        name="content"
-        value={formData.content}
-        onChange={handleChange}
-        placeholder="Inhalt"
-        required
-        rows={4}
-        className="mt-4 w-full border-gray-400 border px-3 py-2 rounded"
-      />
-      <input
-        name="cover"
-        value={formData.cover}
-        onChange={handleChange}
-        placeholder="Bild-URL"
-        required
-        className="mt-4 w-full border border-gray-400 px-3 py-2 rounded"
-      />
-      <div className="flex gap-2 items-center mt-5 ">
-        <label
-          htmlFor="category"
-          className="text-gray-600 block font-bold mb-1"
-        >
-          Category
-        </label>
-        <select
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          required
-          className="text-[var(--primary)] w-full border border-gray-400 px-3 py-2 rounded"
-        >
-          <option value="">-- Select Category --</option>
-          {Object.entries(categoryIcons).map(([cat, icon]) => (
-            <option key={cat} value={cat}>
-              {icon} {cat}
-            </option>
-          ))}
-        </select>
-        <label
-          htmlFor="status"
-          className="ml-4 block font-bold text-gray-600  mb-1"
-        >
-          Status
-        </label>
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-          required
-          className="text-[var(--primary)] w-full border border-gray-400 px-3 py-2 rounded"
-        >
-          <option value="">-- Select Status --</option>
-          <option value="Draft">Draft</option>
-          <option value="Published">Published</option>
-        </select>
-      </div>
-      <button
-        onClick={() => navigate(-1)}
-        type="submit"
-        className="flex gap-2 font-bold items-center bg-[var(--primary)] hover:bg-[var(--secondary)] mt-8 mb-5 px-4 py-2 text-white rounded"
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <form
+        className="bg-white p-4 sm:p-6 lg:p-8 rounded-lg shadow-lg border border-purple-200"
+        onSubmit={handleSubmit}
       >
-        {" "}
-        <MdSave size={20} />
-        Save
-      </button>
-      {success && (
-        <p className="text-accent text-xl font-semibold mb-2">
-          Post saved successfully!
-        </p>
-      )}
-    </form>
+        <h2 className="mb-6 text-xl sm:text-2xl font-bold text-gray-600 text-center">
+          Create new post
+        </h2>
+
+        {error && <p className="text-purple-600 mb-4 text-center">{error}</p>}
+
+        <div className="space-y-4">
+          <input
+            name="author"
+            value={formData.author}
+            onChange={handleChange}
+            placeholder="Autor*in"
+            className="w-full border border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 
+                       text-gray-600 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-all duration-200"
+          />
+
+          <input
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            placeholder="Titel"
+            required
+            className="w-full border border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 
+                       text-gray-600 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-all duration-200"
+          />
+
+          <textarea
+            name="content"
+            value={formData.content}
+            onChange={handleChange}
+            placeholder="Inhalt"
+            required
+            rows={4}
+            className="w-full border border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 
+                       text-gray-600 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-all duration-200 resize-vertical"
+          />
+
+          <input
+            name="cover"
+            value={formData.cover}
+            onChange={handleChange}
+            placeholder="Bild-URL"
+            required
+            className="w-full border border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 
+                       text-gray-600 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-all duration-200"
+          />
+
+          {formData.cover && (
+            <div className="mt-4">
+              <img
+                src={formData.cover}
+                alt="Preview"
+                className="w-full h-48 sm:h-52 md:h-64 object-cover border border-purple-300 rounded-lg"
+              />
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="category"
+                className="text-gray-600 block font-bold mb-2"
+              >
+                Category
+              </label>
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                required
+                className="w-full border border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 
+                           text-purple-600 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-all duration-200"
+              >
+                <option value="">-- Select Category --</option>
+                {Object.entries(categoryIcons).map(([cat, icon]) => (
+                  <option key={cat} value={cat}>
+                    {icon} {cat}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label
+                htmlFor="status"
+                className="text-gray-600 block font-bold mb-2"
+              >
+                Status
+              </label>
+              <select
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                required
+                className="w-full border border-purple-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 
+                           text-purple-600 px-3 py-2 sm:px-4 sm:py-3 rounded-lg transition-all duration-200"
+              >
+                <option value="">-- Select Status --</option>
+                <option value="Draft">Draft</option>
+                <option value="Published">Published</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-6 border-t border-purple-200 mt-6">
+          <button
+            onClick={() => navigate(-1)}
+            type="submit"
+            className="w-full sm:w-auto flex justify-center gap-2 font-bold items-center 
+                       bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 
+                       px-6 py-3 text-white rounded-lg transition-all duration-200 
+                       transform hover:scale-105 shadow-lg"
+          >
+            <MdSave size={20} />
+            Save
+          </button>
+        </div>
+
+        {success && (
+          <p className="text-purple-600 text-lg font-semibold text-center mt-4">
+            Post saved successfully!
+          </p>
+        )}
+      </form>
+    </div>
   );
 }
